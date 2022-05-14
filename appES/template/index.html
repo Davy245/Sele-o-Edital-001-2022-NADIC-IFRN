@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Democracy</title>
+</head>
+<body>
+    <a href="{% url 'formsE' %}">Criar Eleições</a>
+    <a href="{% url 'formsC' %}">Cadastrar Candidato</a>
+    <hr>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th >Inicio das votações</th>
+            <th>Final das votações</th>
+            <th>Candidatos</th>
+            <th>Vencedor</th>
+            <th>Ações</th>
+    </tr>
+    {% for x in election %}
+    <tr>
+        
+            <td>{{ x.id }}</td>
+            <td>{{ x.Name }}</td>
+            <td >{{ x.startData }}</td>
+            <td>{{ x.endDate }}</td>
+            <td>{{ x.numCandidates }}</td>
+            <td>{{ x.Winner }}</td>
+            {% if today < x.startData %}
+            <td><a href="">A votações ainda não começaram</a></td>
+            {% endif %}
+            {% if today >= x.startData and today < x.endDate %}
+            <td><a href="{% url 'listC' x.id %}">Votar</a></td>
+            {% endif %}
+            {% if today > x.endDate %}
+            <td><a href="">A votações já acabaram</a></td>
+            {% endif %}
+    </tr>
+    {% endfor %}
+
+    </table>
+
+
+</body>
+</html>
